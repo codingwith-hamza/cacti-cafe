@@ -1,0 +1,104 @@
+@import "tailwindcss";
+
+/*
+  CACTI CAFÉ — design tokens
+  ---------------------------------------------------------------
+  Palette is extracted from the café's real identity, not invented:
+    · Accent  = desert teal (the saguaro logo, the neon glass line-art,
+                the La Marzocco, the cups). Locked to ONE accent, page-wide.
+    · Neutrals = warm paper/cream (the cups + plaster), limestone/concrete
+                grey (the floors), and one deep charcoal-green used ONLY for
+                the single cinematic "Step inside" section.
+  Shape system (locked): interactive = pill, media/surfaces = 3px, else sharp.
+*/
+
+@theme {
+  --color-sand: #efeae1; /* page background — warm limestone paper */
+  --color-paper: #f8f5ee; /* elevated surfaces */
+  --color-stone: #e2ddd2; /* concrete tint / dividers fill */
+  --color-line: #d8d2c6; /* hairlines */
+
+  --color-ink: #1b201d; /* primary text — charcoal with a green cast */
+  --color-ink-soft: #4b514c; /* secondary text */
+  --color-ink-mute: #8a8f88; /* tertiary / captions */
+
+  --color-teal: #2f8a7e; /* accent — locked */
+  --color-teal-deep: #226b61;
+  --color-teal-bright: #57b3a6;
+  --color-teal-wash: #dfeae6; /* faint teal tint surface */
+
+  --color-night: #121614; /* the one dark section */
+  --color-night-soft: #1c221f;
+
+  --font-display: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-instrument), ui-sans-serif, system-ui, sans-serif;
+
+  --radius-media: 3px;
+}
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-sand);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-feature-settings: "ss01", "cv01";
+  }
+
+  ::selection {
+    background: var(--color-teal);
+    color: #fff;
+  }
+
+  /* Respect users who prefer less motion: neutralise transitions/animations. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer utilities {
+  /* Editorial display leading + optical tracking for very large type. */
+  .text-display {
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 0.98;
+  }
+
+  .fluid-hero {
+    font-size: clamp(2.75rem, 8.5vw, 8rem);
+  }
+  .fluid-h2 {
+    font-size: clamp(2rem, 5vw, 4.25rem);
+  }
+  .fluid-h3 {
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+  }
+
+  /* Fine-grain film grain sits on a fixed, pointer-events-none layer only. */
+  .grain::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    pointer-events: none;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+}
